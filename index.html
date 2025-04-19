@@ -8,21 +8,21 @@
     /*CSS的部分*/
     .gallery {
         display: flex;
-        flex-wrap: wrap;              /* 換行 */
-        justify-content:center;      /* 水平置中所有圖片 */
+        flex-wrap: wrap;              /* 圖片能自動換行 */
+        justify-content:center;      /* 讓圖片整體置中排列 */
         gap: 20px;                    /* 圖片間距 */
         padding: 20px;
     }
     .image {
         width: 250px;
         height: 200px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 陰影效果 */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* 動畫效果:平滑滑過 */
     }
     /*圖片滑動效果*/
     .image:hover {
-        transform: scale(1.1);
-        box-shadow: none;
+        transform: scale(1.1); /* 放大效果 */
+        box-shadow: none; /* 移除陰影 */
     }
 
     /* 按鈕區塊置中 */
@@ -37,7 +37,7 @@
         padding: 10px 20px;
         font-size: 16px;
         border: none;
-        background-color: #e0e0e0; /* 淺灰色 */
+        background-color: #e0e0e0; /* 淺灰底 */
         color: black;
         border-radius: 20px; /* 圓角外觀 */
         cursor: pointer;
@@ -50,12 +50,13 @@
         color: white;
     }
     /* 響應式的設計 */
+    /* 平板：一行兩張 */
     @media (max-width: 768px) {
         .image {
             width: 70%;
         }
     }
-
+    /*/手機：一行一張 */
     @media (max-width: 480px) {
         .image {
             width: 90%;
@@ -64,6 +65,11 @@
 </style>
 <body>
 <!--網站內容的部分-->
+<!--三個 <button>：
+點了會呼叫 filterImages('類型')
+每張圖片都加了 data-type 屬性，標示它是自然或城市類別
+所有圖片放在 .gallery 裡，等一下用 CSS 或 JS 處理排版與顯示控制
+-->
 <!-- 按鈕區 -->
 <div class="buttons">
     <button onclick="filterImages('all')">全部圖片</button>
@@ -84,21 +90,22 @@
 </div>
 <script>
     // JS的部分
+    // 1.篩選圖片顯示
     function filterImages(type) {
         const images = document.querySelectorAll('.image');
         images.forEach(img => {
             if (type === 'all' || img.dataset.type === type) {
-                img.style.display = ''; // 使用預設值
+                img.style.display = '';  // 顯示 使用預設值
             } else {
-                img.style.display = 'none';
+                img.style.display = 'none'; //隱藏
             }
         });
-
+        //2.切換按鈕 active 樣式
         // 切換按鈕樣式
         const buttons = document.querySelectorAll('.buttons button');
-        buttons.forEach(btn => btn.classList.remove('active'));
+        buttons.forEach(btn => btn.classList.remove('active')); // 先清空所有
         const clickedBtn = document.querySelector(`button[onclick="filterImages('${type}')"]`);
-        if (clickedBtn) clickedBtn.classList.add('active');
+        if (clickedBtn) clickedBtn.classList.add('active'); // 對應按鈕加上 active
     }
 </script>
 
